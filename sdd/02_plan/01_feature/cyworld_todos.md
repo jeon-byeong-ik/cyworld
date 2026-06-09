@@ -5,6 +5,7 @@
 미니홈피 프로필·방명록·다이어리·도토리·일촌·방문자 카운터를
 순수 Python(in-memory)으로 구현·검증.
 경계값(잔액 0·날짜 전환), 멱등성 유틸, contract.json 정합 포함.
+사진첩(앨범·사진 CRUD)·동영상 게시판·프로필 수정 화면 추가.
 
 ---
 
@@ -19,6 +20,9 @@
 | AC-5 | 일촌 신청·수락·거절·목록 조회 | `cyworld_feature_spec.md` | ⬜ |
 | AC-6 | 방문자 카운터 (중복 방지·날짜 전환 초기화) | `cyworld_feature_spec.md` | ⬜ |
 | AC-7 | minihompy HTML 렌더 승인 스냅샷 일치 (UI parity) | `cyworld_feature_spec.md` | ⬜ |
+| AC-8 | 사진첩 앨범 CRUD + 사진 추가·조회·삭제 | `cyworld_feature_spec.md` | ✅ |
+| AC-9 | 동영상 게시판 추가·조회·삭제 | `cyworld_feature_spec.md` | ✅ |
+| AC-10 | 프로필 수정 화면 + API | `cyworld_feature_spec.md` | ✅ |
 
 완료 기준: `python3 proof/run_proof.py` → 전체 N/N PASS (목표 30개 이상)
 
@@ -75,6 +79,27 @@
 - [ ] T9 @test-dev  proof 게이트 + UI parity
   - `proof/run_proof.py` — `auth/proof/run_proof.py` 참고, `tmp/proof-results.json` 출력
   - `sdd/04_verify/10_test/ui_parity/minihompy.html` — 스냅샷 생성
+
+### Phase 3 — 사진첩·동영상·프로필 수정 (신규)
+
+- [x] T14 @backend-dev  사진첩 컨텍스트 (`server/contexts/photo/`)
+  - `photo.py`: `PhotoService` — `create_album`, `list_albums`, `add_photo`, `list_photos`, `get_photo`, `delete_photo`
+  - 에러: `AlbumNotFoundError`, `PhotoNotFoundError`
+
+- [x] T15 @backend-dev  동영상 컨텍스트 (`server/contexts/video/`)
+  - `video.py`: `VideoService` — `add_video`, `list_videos`, `get_video`, `delete_video`
+  - 에러: `VideoNotFoundError`
+
+- [x] T16 @backend-dev  app.py 확장
+  - `render_photos_content(uid, album_id, photo_id)` — 앨범 사이드바 + 썸네일 그리드 + 상세뷰
+  - `render_videos_content(uid)` — 동영상 카드 그리드
+  - `render_profile_content(uid)` — 프로필 수정 폼
+  - GET 라우트: `/hompy/{uid}/photos`, `/hompy/{uid}/photos/{album_id}`, `/hompy/{uid}/photos/view/{photo_id}`, `/hompy/{uid}/videos`, `/hompy/{uid}/profile`
+  - POST API: `/api/hompy/{uid}/profile`, `/api/hompy/{uid}/photos`, `/api/hompy/{uid}/videos`
+
+- [x] T17 @test-dev  테스트 스위트 확장
+  - `tests/test_photo.py` — AC-8 (8개)
+  - `tests/test_video.py` — AC-9 (8개)
 
 ### Phase 2 — 확장 테스트
 

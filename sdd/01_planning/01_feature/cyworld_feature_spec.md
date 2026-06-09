@@ -107,6 +107,60 @@
 
 ---
 
+## AC-8 사진첩 (Photo Album)
+
+**AC-8a** When 사용자가 앨범을 생성하면, the system shall
+앨범 ID·이름·소유자를 저장하고 반환한다.
+
+**AC-8b** When 사용자가 사진을 앨범에 추가하면, the system shall
+제목·설명·이미지 URL·앨범 ID·소유자를 저장하고 photo_id를 반환한다.
+
+**AC-8c** When 존재하지 않는 album_id로 사진을 추가하면, the system shall
+`AlbumNotFoundError`를 발생시킨다.
+
+**AC-8d** When 사용자가 전체 사진 목록을 조회하면, the system shall
+해당 사용자의 모든 사진을 반환한다.
+
+**AC-8e** When 앨범 ID를 지정하여 사진 목록을 조회하면, the system shall
+해당 앨범의 사진만 반환한다.
+
+**AC-8f** When 사진을 삭제하면, the system shall
+해당 사진을 목록에서 제거한다.
+
+**AC-8g** When 존재하지 않는 photo_id를 조회하면, the system shall
+`PhotoNotFoundError`를 발생시킨다.
+
+---
+
+## AC-9 동영상 게시판 (Video Board)
+
+**AC-9a** When 사용자가 동영상을 추가하면, the system shall
+제목·설명·썸네일 URL·소유자를 저장하고 video_id를 반환한다.
+
+**AC-9b** When 사용자가 동영상 목록을 조회하면, the system shall
+해당 사용자의 동영상만 반환한다.
+
+**AC-9c** When 동영상을 삭제하면, the system shall
+해당 동영상을 목록에서 제거한다.
+
+**AC-9d** When 존재하지 않는 video_id를 조회하거나 삭제하면, the system shall
+`VideoNotFoundError`를 발생시킨다.
+
+---
+
+## AC-10 프로필 수정 화면 (Profile Edit)
+
+**AC-10a** When 홈피 주인이 프로필 수정 화면을 요청하면, the system shall
+닉네임·자기소개·스킨 편집 폼을 반환한다.
+
+**AC-10b** When 홈피 주인이 프로필을 저장하면, the system shall
+닉네임·자기소개·스킨이 즉시 반영되고 `{"ok": true}`를 반환한다.
+
+**AC-10c** When 존재하지 않는 user_id로 프로필 저장을 요청하면, the system shall
+`{"ok": false}`를 반환한다.
+
+---
+
 ## 검증 매핑
 
 | AC | 테스트 파일 |
@@ -118,6 +172,9 @@
 | AC-5 | `tests/test_buddy.py` |
 | AC-6 | `tests/test_visitor.py` |
 | AC-7 | `tests/test_screen_parity.py` + `sdd/99_toolchain/01_automation/run_ui_parity.py` |
+| AC-8 | `tests/test_photo.py` |
+| AC-9 | `tests/test_video.py` |
+| AC-10 | `tests/test_profile.py` (AC-1c 커버) |
 | 경계값 | `tests/test_acorn_boundaries.py`, `tests/test_visitor_boundaries.py` |
 | 멱등 유틸 | `tests/test_idempotency.py` |
 | contract | `tests/test_contract_smoke.py` |
